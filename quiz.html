@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Эко-Викторина және Ойындар - Құйған табиғаты</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', }
+    </script>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap');
+        body { font-family: 'Montserrat', sans-serif; }
+        
+        /* Пазл үшін стильдер */
+        #puzzle-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            aspect-ratio: 1 / 1;
+            background-color: #e5e7eb;
+            border: 4px solid #22c55e;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .puzzle-piece {
+            width: 100%;
+            height: 100%;
+            background-image: url('puzzle.jpg'); /* СУРЕТ АТАУЫ */
+            background-size: 300% 300%;
+            cursor: grab;
+            transition: transform 0.1s;
+        }
+        .puzzle-piece:active {
+            cursor: grabbing;
+            transform: scale(0.95);
+        }
+
+        /* Google Translate панелін жасыру */
+        body { top: 0 !important; position: static !important; }
+        .skiptranslate, #goog-gt-tt { display: none !important; }
+        .goog-te-banner-frame { display: none !important; }
+    </style>
+</head>
+<body class="text-gray-800 dark:text-gray-200 bg-[#f8fafc] dark:bg-slate-900 min-h-screen flex flex-col transition-colors duration-300">
+
+    <nav class="bg-white dark:bg-slate-800 shadow-md sticky top-0 z-40 border-b-4 border-green-500">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="font-bold text-xl md:text-2xl text-green-700 dark:text-green-500 flex items-center gap-2">
+                <i class="fa-solid fa-earth-asia"></i> ProEco: 1-бағыт
+            </div>
+            <div class="hidden lg:flex space-x-4 font-semibold text-sm items-center">
+                <a href="2.html#passport" class="text-gray-600 dark:text-gray-300 hover:text-green-600 transition">Паспорт</a>
+                <a href="2.html#map" class="text-gray-600 dark:text-gray-300 hover:text-green-600 transition">Карта</a>
+                <a href="2.html#video" class="text-gray-600 dark:text-gray-300 hover:text-green-600 transition">Видео</a>
+                <a href="gallery.html" class="text-gray-600 dark:text-gray-300 hover:text-green-600 transition">Галерея</a>
+                <a href="quiz.html" class="bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-400 px-3 py-1 rounded-full hover:bg-green-200 transition">Викторина & Ойындар</a>
+                
+                <div class="flex items-center gap-2 ml-2 border-l-2 border-green-200 dark:border-slate-600 pl-3">
+                    <button id="btn-kk" onclick="changeLanguage('kk')" class="lang-btn bg-green-500 text-white border-green-500 border w-8 h-8 rounded-full text-xs font-bold shadow-md hover:scale-110 transition">KZ</button>
+                    <button id="btn-ru" onclick="changeLanguage('ru')" class="lang-btn bg-white dark:bg-slate-700 text-gray-700 dark:text-white border border-gray-200 dark:border-slate-600 w-8 h-8 rounded-full text-xs font-bold shadow-md hover:scale-110 transition">RU</button>
+                    <button id="btn-en" onclick="changeLanguage('en')" class="lang-btn bg-white dark:bg-slate-700 text-gray-700 dark:text-white border border-gray-200 dark:border-slate-600 w-8 h-8 rounded-full text-xs font-bold shadow-md hover:scale-110 transition">EN</button>
+                </div>
+                
+                <button onclick="toggleTheme()" class="ml-4 text-gray-500 dark:text-yellow-400 hover:text-gray-800 text-xl focus:outline-none">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow flex flex-col items-center py-12 px-4 gap-12">
+        
+        <div class="max-w-2xl w-full bg-white dark:bg-slate-800 rounded-3xl shadow-xl overflow-hidden border border-gray-100 dark:border-slate-700">
+            <div class="bg-green-500 text-white p-6 text-center">
+                <h1 class="text-3xl font-bold mb-2"><i class="fa-solid fa-brain"></i> Эко-Викторина</h1>
+                <p class="text-green-100">Балқаш көлі мен Іле атырауы туралы біліміңізді тексеріңіз!</p>
+            </div>
+
+            <div id="quiz-container" class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <span id="question-number" class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Сұрақ 1 / 10</span>
+                    <span id="score-display" class="text-sm font-bold text-green-600 dark:text-green-400 bg-green-100 dark:bg-slate-700 px-3 py-1 rounded-full">Ұпай: 0</span>
+                </div>
+                
+                <h2 id="question-text" class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Сұрақ осында тұрады?</h2>
+                
+                <div id="options-container" class="space-y-3">
+                    </div>
+
+                <button id="next-btn" class="mt-8 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl hidden transition-all">Келесі сұрақ <i class="fa-solid fa-arrow-right ml-2"></i></button>
+            </div>
+
+            <div id="result-container" class="p-8 text-center hidden">
+                <div class="text-6xl mb-4 text-green-500"><i class="fa-solid fa-trophy"></i></div>
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">Викторина аяқталды!</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-300 mb-6">Сіздің нәтижеңіз: <span id="final-score" class="font-bold text-blue-600 text-2xl">0</span> / <span id="total-score-text">10</span></p>
+                <p id="result-message" class="text-md font-semibold mb-8"></p>
+                
+                <button onclick="location.reload()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-xl transition-all"><i class="fa-solid fa-rotate-right mr-2"></i> Қайта бастау</button>
+            </div>
+        </div>
+
+        <div class="max-w-2xl w-full bg-white dark:bg-slate-800 rounded-3xl shadow-xl overflow-hidden border border-gray-100 dark:border-slate-700 p-8 text-center">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2"><i class="fa-solid fa-image text-purple-500"></i> Суретті тап!</h2>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">Бұл қандай жануар немесе өсімдік екенін табыңыз.</p>
+            
+            <div class="flex justify-between items-center mb-4">
+                <span id="guess-number" class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Сурет 1 / 4</span>
+            </div>
+
+            <div class="relative w-full h-64 md:h-80 bg-gray-200 rounded-xl overflow-hidden mb-6 border-2 border-gray-100 dark:border-slate-600 shadow-inner">
+                <img id="guess-image" src="" alt="Жасырын сурет" class="w-full h-full object-cover filter blur-xl transition-all duration-700 ease-in-out">
+            </div>
+
+            <div id="guess-options" class="grid grid-cols-2 gap-3 mb-4">
+                </div>
+
+            <div id="guess-fact" class="hidden mt-4 bg-purple-100 border border-purple-400 text-purple-800 px-4 py-3 rounded-xl font-medium text-sm">
+            </div>
+
+            <button id="next-guess-btn" class="mt-6 w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl hidden transition-all">Келесі сурет <i class="fa-solid fa-arrow-right ml-2"></i></button>
+        </div>
+
+        <div class="max-w-2xl w-full bg-white dark:bg-slate-800 rounded-3xl shadow-xl overflow-hidden border border-gray-100 dark:border-slate-700 p-8 text-center">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2"><i class="fa-solid fa-puzzle-piece text-blue-500"></i> Балқашты құрастыр!</h2>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">Бөліктерді бір-біріне сүйреп апару (Drag & Drop) арқылы суретті қалпына келтіріңіз.</p>
+            
+            <div id="puzzle-board">
+                </div>
+            
+            <div id="puzzle-message" class="hidden mt-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-xl">
+                <strong><i class="fa-solid fa-check-circle"></i> Керемет!</strong> Сіз пазлды сәтті құрастырдыңыз!
+            </div>
+            
+            <button onclick="initPuzzle()" class="mt-6 bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 text-gray-800 dark:text-white font-bold py-2 px-6 rounded-xl transition-all"><i class="fa-solid fa-shuffle mr-2"></i> Қайта араластыру</button>
+        </div>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-6 text-center text-sm border-t border-slate-800 mt-auto">
+        <p>«ProEco - 2026» | Орындаған: Мырзағали Нұрзат</p>
+    </footer>
+
+    <script>
+        // 1. РЕЖИМ (Қараңғы/Жарық)
+        const themeIcon = document.getElementById('theme-icon');
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.setItem('color-theme', 'dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                localStorage.setItem('color-theme', 'light');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        // 2. ВИКТОРИНА ЛОГИКАСЫ (10 СҰРАҚ)
+        const quizData = [
+            { question: "Балқаш көлінің әлемдегі ең басты табиғи ерекшелігі қандай?", options: ["Ол әлемдегі ең терең көл", "Оның батысы тұщы, шығысы ащы", "Ол толығымен жасанды су қоймасы", "Ол тек қыста ғана пайда болады"], correct: 1 },
+            { question: "Іле атырауында және Балқашта кездесетін, Қызыл кітапқа енген киелі құс?", options: ["Сарышақа", "Сұңқылдақ аққу", "Қара қарға", "Көгершін"], correct: 1 },
+            { question: "Балқаш экожүйесіне қауіп төндіріп тұрған инвазивті (бөтен) жыртқыш балық қалай аталады?", options: ["Жыланбас (Змееголов)", "Көксерке (Судак)", "Сазан", "Бекіре (Осетр)"], correct: 0 },
+            { question: "Балқаш көліне құятын ең үлкен, негізгі өзен қайсысы?", options: ["Ертіс", "Сырдария", "Іле", "Жайық"], correct: 2 },
+            { question: "Су астында қалып, құстар мен балықтардың қырылуына әкелетін ең қауіпті қоқыс түрі?", options: ["Қағаз қалдықтары", "Ағаш бұтақтары", "Шыны бөтелкелер", "Браконьерлік синтетикалық аулар"], correct: 3 },
+            { question: "Балқаш көлінде балықтың шамамен қанша түрі мекендейді?", options: ["5-тен аз", "10-ға жуық", "20-дан астам", "100-ден астам"], correct: 2 },
+            { question: "Іле атырауында өсетін, тамыры су іздеп 30 метр тереңдікке дейін жететін бірегей ағаш?", options: ["Қарағай", "Тораңғы", "Емен", "Қайың"], correct: 1 },
+            { question: "Көлдің суын табиғи жолмен тазартатын және балықтардың уылдырық шашуына қолайлы орта жасайтын өсімдік?", options: ["Қамыс", "Жантақ", "Сексеуіл", "Жусан"], correct: 0 },
+            { question: "Балқаш көлінің орташа тереңдігі шамамен қанша метр?", options: ["1.5 метр", "5.8 метр", "25 метр", "100 метр"], correct: 1 },
+            { question: "Балқаш экожүйесін сақтау үшін қандай шара ең маңызды?", options: ["Көлді толығымен кептіру", "Браконьерлікпен күресу және жағалауды тазарту", "Тек қана жасанды балықтар жіберу", "Барлық құстарды аулау"], correct: 1 }
+        ];
+
+        let currentQuestion = 0, score = 0, hasAnswered = false;
+        const questionEl = document.getElementById('question-text'), optionsContainer = document.getElementById('options-container'), nextBtn = document.getElementById('next-btn'), questionNumberEl = document.getElementById('question-number'), scoreDisplay = document.getElementById('score-display'), quizContainer = document.getElementById('quiz-container'), resultContainer = document.getElementById('result-container');
+
+        function loadQuestion() {
+            hasAnswered = false; nextBtn.classList.add('hidden');
+            const currentQuizData = quizData[currentQuestion];
+            questionNumberEl.innerText = `Сұрақ ${currentQuestion + 1} / ${quizData.length}`;
+            questionEl.innerText = currentQuizData.question;
+            optionsContainer.innerHTML = '';
+            currentQuizData.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.classList.add('w-full', 'text-left', 'p-4', 'rounded-xl', 'border-2', 'border-gray-200', 'dark:border-slate-600', 'hover:border-green-500', 'hover:bg-green-50', 'dark:hover:bg-slate-700', 'transition-all', 'font-semibold', 'text-gray-700', 'dark:text-gray-200');
+                button.addEventListener('click', () => selectAnswer(index, button));
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function selectAnswer(selectedIndex, button) {
+            if (hasAnswered) return;
+            hasAnswered = true;
+            const correctIndex = quizData[currentQuestion].correct;
+            const buttons = optionsContainer.querySelectorAll('button');
+
+            if (selectedIndex === correctIndex) {
+                button.classList.replace('border-gray-200', 'border-green-500'); button.classList.replace('hover:bg-green-50', 'bg-green-500'); button.classList.add('text-white', 'dark:bg-green-600'); button.innerHTML += ' <i class="fa-solid fa-circle-check float-right text-xl"></i>';
+                score++; scoreDisplay.innerText = `Ұпай: ${score}`;
+            } else {
+                button.classList.replace('border-gray-200', 'border-red-500'); button.classList.replace('hover:bg-green-50', 'bg-red-500'); button.classList.add('text-white', 'dark:bg-red-600'); button.innerHTML += ' <i class="fa-solid fa-circle-xmark float-right text-xl"></i>';
+                buttons[correctIndex].classList.replace('border-gray-200', 'border-green-500'); buttons[correctIndex].classList.add('bg-green-100', 'dark:bg-green-900', 'text-green-800', 'dark:text-green-100');
+            }
+            buttons.forEach(btn => btn.style.cursor = 'not-allowed'); nextBtn.classList.remove('hidden');
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) { loadQuestion(); } else { showResults(); }
+        });
+
+        function showResults() {
+            quizContainer.classList.add('hidden'); resultContainer.classList.remove('hidden');
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('total-score-text').innerText = quizData.length;
+            const messageEl = document.getElementById('result-message');
+            if(score >= 9) { messageEl.innerText = "Керемет! Сіз нағыз эколог екенсіз! 🌿"; messageEl.classList.add('text-green-500'); } 
+            else if(score >= 5) { messageEl.innerText = "Жақсы нәтиже! Бірақ әлі де іздене түсу керек. 👍"; messageEl.classList.add('text-blue-500'); } 
+            else { messageEl.innerText = "Уайымдамаңыз, сайттағы ақпаратты қайта оқып шығыңыз! 📖"; messageEl.classList.add('text-orange-500'); }
+        }
+        loadQuestion();
+
+        // 3. "СУРЕТТІ ТАП" ОЙЫНЫ ЛОГИКАСЫ
+        const guessGameData = [
+            { image: "zmei.jpg", options: ["Сазан", "Көксерке", "Жыланбас", "Жайын"], correct: 2, fact: "Дұрыс! Жыланбас – Балқаш үшін өте қауіпті инвазивті жыртқыш балық." },
+            { image: "aqqu.jpg", options: ["Бірқазан", "Сұңқылдақ аққу", "Көкқұтан", "Жабайы үйрек"], correct: 1, fact: "Керемет! Сұңқылдақ аққу – Қызыл кітапқа енген киелі құс." },
+            { image: "qaban.jpg", options: ["Қасқыр", "Түлкі", "Борсық", "Жабайы қабан"], correct: 3, fact: "Дәл таптыңыз! Жабайы қабан Іле атырауының қалың қамысын мекендейді." },
+            { image: "torangy.jpg", options: ["Тораңғы", "Сексеуіл", "Жыңғыл", "Жантақ"], correct: 0, fact: "Өте жақсы! Тораңғы – тамыры 30 метрге дейін жететін бірегей шөл ағашы." }
+        ];
+
+        let currentGuess = 0;
+        let guessAnswered = false;
+        
+        const guessImageEl = document.getElementById('guess-image');
+        const guessOptionsContainer = document.getElementById('guess-options');
+        const guessFactEl = document.getElementById('guess-fact');
+        const nextGuessBtn = document.getElementById('next-guess-btn');
+        const guessNumberEl = document.getElementById('guess-number');
+
+        function loadGuess() {
+            guessAnswered = false;
+            nextGuessBtn.classList.add('hidden');
+            guessFactEl.classList.add('hidden');
+            
+            const currentData = guessGameData[currentGuess];
+            guessNumberEl.innerText = `Сурет ${currentGuess + 1} / ${guessGameData.length}`;
+            
+            // Суретті бұлыңғырлау
+            guessImageEl.src = currentData.image;
+            guessImageEl.classList.add('blur-xl');
+            guessImageEl.classList.remove('blur-none');
+            
+            guessOptionsContainer.innerHTML = '';
+            
+            currentData.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.innerText = option;
+                btn.className = 'w-full bg-slate-100 dark:bg-slate-700 text-gray-800 dark:text-gray-200 border-2 border-transparent hover:border-purple-500 font-bold py-3 rounded-xl transition-all shadow-sm';
+                btn.onclick = () => selectGuess(index, btn);
+                guessOptionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectGuess(index, button) {
+            if (guessAnswered) return;
+            guessAnswered = true;
+            
+            const currentData = guessGameData[currentGuess];
+            const buttons = guessOptionsContainer.querySelectorAll('button');
+            
+            // Суретті тұнық ету (бұлыңғырды алып тастау)
+            guessImageEl.classList.remove('blur-xl');
+            guessImageEl.classList.add('blur-none');
+            
+            if (index === currentData.correct) {
+                button.classList.replace('bg-slate-100', 'bg-green-500');
+                button.classList.replace('dark:bg-slate-700', 'bg-green-500');
+                button.classList.add('text-white', 'border-green-500');
+                button.innerHTML += ' <i class="fa-solid fa-check float-right mt-1"></i>';
+            } else {
+                button.classList.replace('bg-slate-100', 'bg-red-500');
+                button.classList.replace('dark:bg-slate-700', 'bg-red-500');
+                button.classList.add('text-white', 'border-red-500');
+                button.innerHTML += ' <i class="fa-solid fa-xmark float-right mt-1"></i>';
+                
+                // Дұрыс жауапты жасыл қылып көрсету
+                buttons[currentData.correct].classList.replace('bg-slate-100', 'bg-green-500');
+                buttons[currentData.correct].classList.replace('dark:bg-slate-700', 'bg-green-500');
+                buttons[currentData.correct].classList.add('text-white');
+            }
+            
+            buttons.forEach(btn => btn.style.cursor = 'not-allowed');
+            
+            guessFactEl.innerHTML = `<i class="fa-solid fa-circle-info mr-2"></i> ${currentData.fact}`;
+            guessFactEl.classList.remove('hidden');
+            
+            if (currentGuess < guessGameData.length - 1) {
+                nextGuessBtn.innerHTML = 'Келесі сурет <i class="fa-solid fa-arrow-right ml-2"></i>';
+                nextGuessBtn.classList.remove('hidden');
+            } else {
+                nextGuessBtn.innerHTML = 'Қайта ойнау <i class="fa-solid fa-rotate-right ml-2"></i>';
+                nextGuessBtn.onclick = () => { currentGuess = 0; loadGuess(); };
+                nextGuessBtn.classList.remove('hidden');
+                nextGuessBtn.classList.replace('bg-purple-600', 'bg-green-500');
+                nextGuessBtn.classList.replace('hover:bg-purple-700', 'hover:bg-green-600');
+            }
+        }
+
+        nextGuessBtn.addEventListener('click', () => {
+            if(currentGuess < guessGameData.length - 1) {
+                currentGuess++;
+                loadGuess();
+            }
+        });
+        
+        loadGuess();
+
+        // 4. ПАЗЛ ОЙЫНЫ ЛОГИКАСЫ
+        const board = document.getElementById('puzzle-board');
+        const message = document.getElementById('puzzle-message');
+        let draggedPiece = null;
+
+        function initPuzzle() {
+            board.innerHTML = '';
+            message.classList.add('hidden');
+            
+            let indices = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+            indices.sort(() => Math.random() - 0.5);
+
+            indices.forEach((originalIndex, i) => {
+                const piece = document.createElement('div');
+                piece.classList.add('puzzle-piece');
+                piece.setAttribute('draggable', true);
+                piece.dataset.correctIndex = originalIndex;
+                
+                const x = (originalIndex % 3) * 50; 
+                const y = Math.floor(originalIndex / 3) * 50;
+                piece.style.backgroundPosition = `${x}% ${y}%`;
+                
+                piece.addEventListener('dragstart', function() {
+                    draggedPiece = this;
+                    setTimeout(() => this.style.opacity = '0.5', 0);
+                });
+                
+                piece.addEventListener('dragend', function() {
+                    setTimeout(() => this.style.opacity = '1', 0);
+                    draggedPiece = null;
+                });
+                
+                piece.addEventListener('dragover', function(e) {
+                    e.preventDefault(); 
+                });
+                
+                piece.addEventListener('dragenter', function(e) {
+                    e.preventDefault();
+                    this.style.transform = 'scale(0.95)';
+                });
+                
+                piece.addEventListener('dragleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+                
+                piece.addEventListener('drop', function() {
+                    this.style.transform = 'scale(1)';
+                    if (draggedPiece !== this) {
+                        let allPieces = [...board.children];
+                        let draggedIndex = allPieces.indexOf(draggedPiece);
+                        let targetIndex = allPieces.indexOf(this);
+                        
+                        if (draggedIndex < targetIndex) {
+                            this.after(draggedPiece);
+                            allPieces[draggedIndex].before(this);
+                        } else {
+                            this.before(draggedPiece);
+                            allPieces[draggedIndex].after(this);
+                        }
+                        checkWin();
+                    }
+                });
+
+                board.appendChild(piece);
+            });
+        }
+
+        function checkWin() {
+            let allPieces = [...board.children];
+            let isWin = allPieces.every((piece, index) => {
+                return parseInt(piece.dataset.correctIndex) === index;
+            });
+            
+            if (isWin) {
+                message.classList.remove('hidden');
+                board.style.gap = '0';
+            } else {
+                board.style.gap = '2px';
+            }
+        }
+
+        initPuzzle();
+    </script>
+
+    <div id="google_translate_element" style="display:none;"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({ pageLanguage: 'kk', includedLanguages: 'kk,ru,en', autoDisplay: false }, 'google_translate_element');
+        }
+        function changeLanguage(lang) {
+            var select = document.querySelector('.goog-te-combo');
+            if (select) { select.value = lang; select.dispatchEvent(new Event('change')); }
+            const btns = ['kk', 'ru', 'en'];
+            btns.forEach(l => {
+                const btn = document.getElementById('btn-' + l);
+                if(btn) {
+                    if(l === lang) btn.className = 'lang-btn bg-green-500 text-white border-green-500 border w-8 h-8 rounded-full text-xs font-bold shadow-md hover:scale-110 transition';
+                    else btn.className = 'lang-btn bg-white dark:bg-slate-700 text-gray-700 dark:text-white border border-gray-200 dark:border-slate-600 w-8 h-8 rounded-full text-xs font-bold shadow-md hover:scale-110 transition';
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

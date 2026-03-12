@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Галерея - Балқаш көлі мен табиғаты</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8fafc;
+            scroll-behavior: smooth;
+        }
+
+        /* 3D эффектіге арналған негізгі стильдер */
+        .gallery-card {
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            background: white;
+            /* 3D кеңістікті сақтау үшін */
+            transform-style: preserve-3d; 
+            border: 1px solid #f1f5f9;
+        }
+
+        /* Суреттің 3D поп-ап (алға шығу) эффектісі */
+        .card-image-container {
+            transform: translateZ(40px);
+            transform-style: preserve-3d;
+            border-radius: 1rem 1rem 0 0;
+            overflow: hidden;
+        }
+
+        /* Мәтіннің 3D поп-ап эффектісі */
+        .card-content {
+            transform: translateZ(30px);
+        }
+
+        .gallery-img {
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-card:hover .gallery-img {
+            transform: scale(1.1);
+        }
+
+        /* Google Translate панелін жасыру */
+        body { top: 0 !important; position: static !important; }
+        .skiptranslate, #goog-gt-tt { display: none !important; }
+        .goog-te-banner-frame { display: none !important; }
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+
+    <nav class="bg-white shadow-md sticky top-0 z-40 border-b-4 border-green-500">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="font-bold text-xl md:text-2xl text-green-700 flex items-center gap-2">
+                <i class="fa-solid fa-camera-retro"></i> ProEco: Галерея
+            </div>
+            <div class="flex space-x-4 font-semibold text-sm items-center">
+                <a href="2.html" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full hover:bg-green-500 hover:text-white transition duration-300 flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i> Басты бетке қайту
+                </a>
+                
+                <div class="flex items-center gap-2 ml-2 border-l-2 border-gray-200 pl-3">
+                    <button id="btn-kk" onclick="changeLanguage('kk')" class="lang-btn bg-green-500 text-white border-green-500 border w-8 h-8 rounded-full text-xs font-bold shadow-md hover:scale-110 transition">KZ</button>
+                    <button id="btn-ru" onclick="changeLanguage('ru')" class="lang-btn bg-white text-gray-700 border border-gray-200 w-8 h-8 rounded-full text-xs font-bold shadow-md hover:scale-110 transition">RU</button>
+                    <button id="btn-en" onclick="changeLanguage('en')" class="lang-btn bg-white text-gray-700 border border-gray-200 w-8 h-8 rounded-full text-xs font-bold shadow-md hover:scale-110 transition">EN</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative bg-slate-900 py-20 flex items-center justify-center text-center overflow-hidden">
+        <div class="relative z-10 px-4 max-w-4xl">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-xl leading-tight">
+                Балқаш көлінің табиғаты
+            </h1>
+            <p class="text-lg text-gray-300 drop-shadow-md max-w-2xl mx-auto">
+                Құйған ауылының сұлу табиғаты, сирек кездесетін балықтар, құстар мен экожүйенің бірегей кадрлары.
+            </p>
+        </div>
+    </header>
+
+    <section class="py-12 px-4 max-w-7xl mx-auto">
+        <div class="flex items-center gap-3 mb-8 border-b-2 border-gray-200 pb-4">
+            <i class="fa-solid fa-fish-fins text-3xl text-blue-600"></i>
+            <h2 class="text-3xl font-bold text-gray-800">Балқаш көлінің балықтары</h2>
+        </div>
+        <p class="text-gray-500 text-sm mb-6 -mt-4 bg-blue-50 p-3 rounded-lg inline-block border border-blue-100">
+            <i class="fa-solid fa-hand-pointer text-blue-500 mr-2 animate-bounce"></i> Эффектіні көру үшін тышқанды суреттің үстіне апарыңыз.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="karas.jpg" alt="Мөңке балық" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/22c55e/ffffff?text=Мөңке+балық'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Мөңке балық (Карась)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Балқаш көлінде кең таралған, оттегі тапшылығына өте төзімді балық. Негізінен шөптесін тайыз суларда тіршілік етеді.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="zmei.jpg" alt="Жыланбас" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/3b82f6/ffffff?text=Жыланбас'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Жыланбас (Змееголов)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Аймақ үшін инвазивті түр. Өте қауіпті жыртқыш, басқа балықтардың шабақтарын жеп, жергілікті экожүйеге зиян келтіреді.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="amur.jpg" alt="Ақ амур" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/ef4444/ffffff?text=Амур'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Ақ амур (Белый амур)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Көлдің «санитары» саналатын өсімдікқоректі ірі балық. Судағы қамыс-балдырларды жеп, судың тазаруына үлкен үлес қосады.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="som.jpg" alt="Жайын" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/f59e0b/ffffff?text=Жайын'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Жайын (Сом)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Балқаш фаунасындағы ең ірі жыртқыштардың бірі. Көбінесе су түбінде, шұңқырларда жатады және түнде белсенділік танытады.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="vobla.jpg" alt="Вобла" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/8b5cf6/ffffff?text=Вобла'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Вобла (Плотва)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Кәсіптік маңызы бар, топтасып жүретін танымал балық. Халық арасында көп ауланады және кептірілген күйде жоғары бағаланады.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="jerex.jpg" alt="Аққайран" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/ec4899/ffffff?text=Аққайран'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Аққайран (Жерех)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Өте жылдам жүзетін жыртқыш. Судың беткі қабатында шағын балықтарды аулайды. Еті сүйекті болса да, өте дәмді.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="sudak.jpg" alt="Көксерке" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/14b8a6/ffffff?text=Көксерке'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Көксерке (Судак)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Оттегіге бай, таза суларды қалайтын бағалы жыртқыш. Диеталық етімен ерекшеленеді және экспортқа көп шығарылады.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="sazan.jpeg" alt="Сазан" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/f97316/ffffff?text=Сазан'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Сазан</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Балқаш көлінің басты байлықтарының бірі. Негізінен су түбіндегі омыртқасыздармен қоректенеді, кәсіптік құндылығы өте жоғары.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 px-4 max-w-7xl mx-auto bg-orange-50 rounded-3xl mt-4 mb-8 border border-orange-100 shadow-sm">
+        <div class="flex items-center gap-3 mb-8 border-b-2 border-orange-200 pb-4 px-4">
+            <i class="fa-solid fa-feather-pointed text-3xl text-orange-600"></i>
+            <h2 class="text-3xl font-bold text-gray-800">Іле атырауының құстары мен аңдары</h2>
+        </div>
+        
+        <p class="text-orange-500 text-sm mb-6 -mt-4 bg-orange-100/50 p-3 rounded-lg inline-block border border-orange-200 mx-4">
+            <i class="fa-solid fa-volume-high text-orange-500 mr-2 animate-pulse"></i> Құстар мен аңдардың даусын есту үшін тышқанды суреттің үстіне апарыңыз.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
+            <div class="gallery-card group tilt-card cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4" onmouseenter="playSound('pelican.mp3')" onmouseleave="stopSound()">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="pelican.jpg" alt="Бұйра бірқазан" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/ea580c/ffffff?text=Бірқазан'">
+                    <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">Қызыл кітап</div>
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Бұйра бірқазан (Пеликан)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Іле атырауының мақтанышы. Тұмсығының астында үлкен қапшығы бар, топтасып балық аулайтын ерекше әрі ірі құс.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4" onmouseenter="playSound('aqqu.mp3')" onmouseleave="stopSound()">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="aqqu.jpg" alt="Сұңқылдақ аққу" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/f97316/ffffff?text=Аққу'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Сұңқылдақ аққу (Лебедь)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Құйған ауылы маңындағы қамысты қопаларда ұя салатын киелі құс. Олардың сұлулығы көл табиғатына ерекше көрік береді.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4" onmouseenter="playSound('qutan.mp3')" onmouseleave="stopSound()">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="qutan.jpg" alt="Көкқұтан" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/fb923c/ffffff?text=Көкқұтан'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Көкқұтан (Серая цапля)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Тайыз суларда қозғалмай тұрып балық аулайтын сабырлы құс. Ұзын сирағы мен өткір тұмсығы оған тамаша аңшы болуға көмектеседі.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4" onmouseenter="playSound('qaraqaz.mp3')" onmouseleave="stopSound()">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="qaraqaz.jpg" alt="Қарақаз" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/fdba74/ffffff?text=Қарақаз'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Үлкен қарақаз (Баклан)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Су астында өте жылдам жүзіп, тереңге сүңги алатын епті құс. Іле өзенінің құйылысында мыңдаған топ болып тіршілік етеді.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4" onmouseenter="playSound('qyrgauyl.mp3')" onmouseleave="stopSound()">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="qyrgauyl.jpg" alt="Қырғауыл" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/fed7aa/ffffff?text=Қырғауыл'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Жетісу қырғауылы (Фазан)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Қамыс пен тораңғы ормандарында мекендейтін, қораздың түрлі-түсті қауырсынымен ерекшеленетін Балқаш маңының әдемі құсы.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4" onmouseenter="playSound('qaban.mp3')" onmouseleave="stopSound()">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="qaban.jpg" alt="Жабайы шошқа" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/ffedd5/ffffff?text=Қабан'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Жабайы қабан (Кабан)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Іле атырауының қалың қамысын мекендейтін, үйірмен жүретін ірі жануар. Олар өсімдік тамырларын қазып жеп, экожүйеге әсер етеді.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4" onmouseenter="playSound('qoyan.mp3')" onmouseleave="stopSound()">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="qoyan.jpg" alt="Қоян" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/fcd34d/ffffff?text=Қоян'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Толоғай қоян (Заяц-толай)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Жіңішке әрі ұзын аяқты, сексеуіл мен тораңғы ормандарының арасында кездесетін жүйрік дала қояны.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4" onmouseenter="playSound('uyrek.mp3')" onmouseleave="stopSound()">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="uyrek.jpg" alt="Жабайы үйрек" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/86efac/ffffff?text=Үйрек'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Жабайы үйрек (Кряква)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Балқаш көлі мен Іле сағасындағы қамысты қопаларда көптеп кездесетін, суда жақсы жүзетін маңызды құс.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4" onmouseenter="playSound('ondatra.mp3')" onmouseleave="stopSound()">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="ondatra.jpg" alt="Ондатра" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/d8b4fe/ffffff?text=Ондатра'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Ондатра (Мускусная крыса)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Сулы-батпақты жерлерде тіршілік ететін, терісі бағалы кеміргіш. Қамыстан суда қалқып тұратын күрке салады.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4" onmouseenter="playSound('borsyq.mp3')" onmouseleave="stopSound()">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="borsyq.jpg" alt="Борсық" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/94a3b8/ffffff?text=Борсық'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Борсық (Барсук)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Түнде белсенді болатын, күрделі әрі ұзын ін қазатын сүтқоректі. Ормандар мен жағалау экожүйесінде маңызы зор.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4" onmouseenter="playSound('tulki.mp3')" onmouseleave="stopSound()">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="tulki.jpg" alt="Түлкі" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/fdba74/ffffff?text=Түлкі'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Түлкі (Қарсақ / Лиса)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Іле атырауының құмды-далалы аймақтарын мекендейтін айлакер жыртқыш. Негізінен ұсақ кеміргіштермен қоректенеді.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4" onmouseenter="playSound('qasqyr.mp3')" onmouseleave="stopSound()">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="qasqyr.jpg" alt="Қасқыр" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/cbd5e1/ffffff?text=Қасқыр'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Жазық дала қасқыры (Волк)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Экожүйенің тазалығын сақтайтын басты жыртқыштардың бірі. Ауру немесе әлсіз аңдарды жеп, табиғи теңгерімді реттеп отырады.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 px-4 max-w-7xl mx-auto bg-slate-50 rounded-3xl mb-8 border border-gray-200">
+        <div class="flex items-center gap-3 mb-8 border-b-2 border-gray-200 pb-4 px-4">
+            <i class="fa-solid fa-video text-3xl text-red-600"></i>
+            <h2 class="text-3xl font-bold text-gray-800">Бейнематериалдар</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
+            <div class="bg-white p-3 rounded-2xl shadow-md border border-gray-100">
+                <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-black mb-4">
+                    <video class="absolute top-0 left-0 w-full h-full" controls preload="metadata">
+                        <source src="bir.mp4" type="video/mp4">
+                        <source src="bir.mp4.mp4" type="video/mp4">
+                        <source src="bir.mov" type="video/mp4">
+                        <source src="bir.MOV" type="video/mp4">
+                        <source src="bir" type="video/mp4">
+                        Браузер видеоны оқи алмады.
+                    </video>
+                </div>
+                <div class="px-2 pb-2">
+                    <h3 class="font-bold text-lg text-gray-800"><i class="fa-solid fa-play text-red-500 text-sm mr-2"></i>Балқаш табиғаты - Шолу</h3>
+                    <p class="text-sm text-gray-500 mt-1">Көл жағалауы мен балықшылардың күнделікті тіршілігі.</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-3 rounded-2xl shadow-md border border-gray-100">
+                <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-black mb-4">
+                    <video class="absolute top-0 left-0 w-full h-full" controls preload="metadata">
+                        <source src="eki.mp4" type="video/mp4">
+                        <source src="eki.mp4.mp4" type="video/mp4">
+                        <source src="eki.mov" type="video/mp4">
+                        <source src="eki.MOV" type="video/mp4">
+                        <source src="eki" type="video/mp4">
+                        Браузер видеоны оқи алмады.
+                    </video>
+                </div>
+                <div class="px-2 pb-2">
+                    <h3 class="font-bold text-lg text-gray-800"><i class="fa-solid fa-play text-red-500 text-sm mr-2"></i>Құйған ауылына шолу</h3>
+                    <p class="text-sm text-gray-500 mt-1">Ауылдың дронмен түсірілген әсем көрінісі мен табиғаты.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 px-4 max-w-7xl mx-auto mt-4 mb-12">
+        <div class="flex items-center gap-3 mb-8 border-b-2 border-gray-200 pb-4">
+            <i class="fa-solid fa-leaf text-3xl text-green-600"></i>
+            <h2 class="text-3xl font-bold text-gray-800">Жағалау флорасы (Өсімдіктер әлемі)</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="kamys.jpg" alt="Қамыс" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/22c55e/ffffff?text=Қамыс'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Қамыс (Тростник)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Көл жағалауындағы ең көп таралған өсімдік. Суды табиғи түрде тазартады және балықтардың уылдырық шашуына қолайлы орта жасайды.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="koga.jpg" alt="Қоға" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/8b5cf6/ffffff?text=Қоға'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Қоға (Рогоз)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Батпақты жерлерде өсетін, қарақоңыр «соташықтары» бар өсімдік. Тамыры су қоймасының түбін бекітіп, эрозиядан сақтайды.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="zhyngyl.jpg" alt="Жыңғыл" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/ec4899/ffffff?text=Жыңғыл'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Жыңғыл (Тамарикс)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Сор және тұзды топыраққа төзімді бұта. Көктемде қызғылт гүл атып, жағалауға ерекше көрік береді.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="zhide.jpeg" alt="Жиде" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/f59e0b/ffffff?text=Жиде'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Жиде (Лох серебристый)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Күміс түстес жапырақты ағаш. Тәтті жемістері жабайы құстар мен аңдардың негізгі азығы болып табылады.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="tungiyq.jpg" alt="Ақ тұңғиық" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/3b82f6/ffffff?text=Тұңғиық'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Ақ тұңғиық (Кувшинка)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Тыныш шығанақтарда өсетін сұлу су өсімдігі. Бұл гүлдің өсуі – судың тазалығының басты белгісі.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="torangy.jpg" alt="Тораңғы" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/ef4444/ffffff?text=Тораңғы'">
+                    <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">Қызыл кітап</div>
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Тораңғыл терек</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Құмды аймақтарға бейімделген бірегей ағаш. Тамыры су іздеп 30 метр тереңдікке дейін жетеді.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="sekseuil.jpeg" alt="Сексеуіл" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/8b5cf6/ffffff?text=Сексеуіл'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Сексеуіл (Саксаул)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Құм көшкінін тоқтататын, тамыры тереңге кететін шөлді аймақтың ең басты және экологиялық маңызды ағашы.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="juzgin.jpeg" alt="Жүзгін" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/ec4899/ffffff?text=Жүзгін'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Жүзгін (Джузгун)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Құмды бекітетін мықты бұта. Оның қызғылт-шашақты немесе үлпілдек жемістері табиғатқа ерекше көрік береді.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="zhantaq.jpg" alt="Жантақ" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/f59e0b/ffffff?text=Жантақ'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Жантақ (Верблюжья колючка)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Шөлді аймақтың символы. Тамыры су іздеп 20 метр тереңдікке дейін жететін экологиялық төзімді өсімдік.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="zhusan.jpg" alt="Жусан" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/22c55e/ffffff?text=Жусан'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Жусан (Полынь)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Иісі мұрын жаратын, емдік қасиеті мол дала өсімдігі. Ол құрғақшылыққа өте төзімді келеді.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 px-4 max-w-7xl mx-auto bg-red-50 rounded-3xl mt-4 mb-12 border border-red-100 shadow-sm">
+        <div class="flex items-center gap-3 mb-6 border-b-2 border-red-200 pb-4 px-4">
+            <i class="fa-solid fa-triangle-exclamation text-3xl text-red-600"></i>
+            <h2 class="text-3xl font-bold text-gray-800">Экологиялық мәселелер: Біз нені жоғалтуымыз мүмкін?</h2>
+        </div>
+        
+        <p class="text-gray-700 text-base mb-8 px-4 leading-relaxed font-medium">
+            Балқаш көлі мен Іле атырауының қайталанбас табиғаты қазіргі таңда адам факторы мен климаттың өзгеруінен үлкен қауіп үстінде. Бұл мәселелерге көз жұма қарауға болмайды.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+            
+            <div class="gallery-card group tilt-card border-red-200" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="brakoner.jpg" alt="Браконьерлік" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/ef4444/ffffff?text=Браконьерлік'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-red-700 mb-2">Браконьерлік пен заңсыз ау</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Қытайлық арзан пластик аулар балықтарды қырып қана қоймай, су түбінде қалып үлкен экологиялық апатқа әкелуде.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card border-red-200" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="qogys.jpeg" alt="Жағалаудағы қоқыс" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/dc2626/ffffff?text=Қоқыс'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-red-700 mb-2">Тұрмыстық қалдықтар</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Демалушылар мен жергілікті тұрғындардан қалған пластик пен қоқыс жағалаудың сәнін бұзып, жануарлардың өміріне қауіп төндіреді.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card group tilt-card border-red-200" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+                <div class="relative h-48 bg-gray-200 card-image-container">
+                    <img src="qurgaq.jpg" alt="Судың тартылуы" class="gallery-img w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/b91c1c/ffffff?text=Су+тартылуы'">
+                </div>
+                <div class="p-5 card-content">
+                    <h3 class="font-bold text-lg text-red-700 mb-2">Су деңгейінің төмендеуі</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Іле өзенінен келетін судың азаюынан Балқаштың тайыз шығанақтары құрғап, шөлге айналу қаупі бар.</p>
+                </div>
+            </div>
+
+        </div>
+<section id="action-plan" class="py-16 px-4 bg-green-50 dark:bg-slate-900 border-t border-green-100 dark:border-slate-800 transition-colors duration-300">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-4 text-green-900 dark:text-green-400">Мәселені шешу жолдары (Іс-қимыл жоспары)</h2>
+            <p class="text-center text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto">Балқаш көлі мен Құйған табиғатын сақтап қалу үшін біз ұсынатын нақты 3 қадам.</p>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg border-t-4 border-blue-500 hover:-translate-y-2 transition-all duration-300">
+                    <div class="text-blue-500 text-4xl mb-4 bg-blue-50 dark:bg-slate-700 w-16 h-16 flex items-center justify-center rounded-full"><i class="fa-solid fa-water"></i></div>
+                    <h4 class="text-xl font-bold mb-3 dark:text-white">1. Су ресурстары мен жағалауды қорғау</h4>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Балқаш көлі мен Іле сағасын тек тұрмыстық пластиктен ғана емес, су түбінде шірімейтін <b>браконьерлік синтетикалық аулардан (қытай торларынан)</b> тазарту. Жергілікті деңгейде "Таза жағалау" эко-акцияларын тұрақты ұйымдастыру.</p>
+                </div>
+                
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg border-t-4 border-red-500 hover:-translate-y-2 transition-all duration-300">
+                    <div class="text-red-500 text-4xl mb-4 bg-red-50 dark:bg-slate-700 w-16 h-16 flex items-center justify-center rounded-full"><i class="fa-solid fa-fish-fins"></i></div>
+                    <h4 class="text-xl font-bold mb-3 dark:text-white">2. Биоәртүрлілікті сақтау</h4>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Жергілікті құнды балықтардың (сазан, көксерке) шабақтарын жойып жатқан қауіпті жыртқыш — <b>жыланбас балығын (змееголов)</b> аулауды ынталандыру. Эндемик балықтардың уылдырық шашатын табиғи орындарын қатаң қорғауға алу.</p>
+                </div>
+                
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg border-t-4 border-green-500 hover:-translate-y-2 transition-all duration-300">
+                    <div class="text-green-500 text-4xl mb-4 bg-green-50 dark:bg-slate-700 w-16 h-16 flex items-center justify-center rounded-full"><i class="fa-solid fa-laptop-code"></i></div>
+                    <h4 class="text-xl font-bold mb-3 dark:text-white">3. Сандық экологиялық ағарту</h4>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Біз әзірлеген осы <b>«ProEco» виртуалды картасы мен EcoBot гидін</b> ауыл мектептерінде биология және география сабақтарында көрнекі оқу құралы ретінде қолдану. Жас ұрпақты табиғатты ІТ-технологиялар арқылы қорғауға баулу.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <footer class="bg-slate-900 text-slate-300 py-8 text-center text-sm border-t border-slate-700">
+        <div class="container mx-auto px-4">
+            <p class="font-bold text-white text-lg mb-2">«ProEco - 2026» Республикалық байқауы</p>
+            <p>Бұл жоба 1-бағыт («Туған өлке табиғаты») бойынша арнайы әзірленді.</p>
+            
+            <div class="mt-6 mb-4 inline-block text-left bg-slate-800 px-6 py-3 rounded-xl border border-slate-600 shadow-lg">
+                <p class="text-gray-200 mb-1"><i class="fa-solid fa-user-graduate text-green-400 w-5"></i> <strong>Орындаған:</strong> Мырзағали Нұрзат, "Н.Бозжанов атындағы орта мектебі"</p>
+                <p class="text-gray-200"><i class="fa-regular fa-calendar-check text-blue-400 w-5"></i> <strong>Жасалған күні:</strong> 5 наурыз 2026 жыл</p>
+            </div>
+
+            <p class="mt-2 opacity-50">Барлық құқықтар қорғалған © 2026</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    
+    <script>
+        VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
+            max: 15,          
+            speed: 400,       
+            glare: true,      
+            "max-glare": 0.4, 
+        });
+        
+        let currentAnimalSound = null;
+
+        function playSound(audioFile) {
+            if (currentAnimalSound) {
+                currentAnimalSound.pause();
+                currentAnimalSound.currentTime = 0;
+            }
+            currentAnimalSound = new Audio(audioFile);
+            currentAnimalSound.play().catch(function(error) {
+                console.log("Браузер дыбысты автоматты түрде ойнатуды бұғаттауы мүмкін:", error);
+            });
+        }
+
+        function stopSound() {
+            if (currentAnimalSound) {
+                currentAnimalSound.pause();
+                currentAnimalSound.currentTime = 0;
+            }
+        }
+    </script>
+
+    <div id="google_translate_element" style="display:none;"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'kk', 
+                includedLanguages: 'kk,ru,en', 
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        function changeLanguage(lang) {
+            var select = document.querySelector('.goog-te-combo');
+            if (select) {
+                select.value = lang;
+                select.dispatchEvent(new Event('change'));
+            }
+            const btns = ['kk', 'ru', 'en'];
+            btns.forEach(l => {
+                const btn = document.getElementById('btn-' + l);
+                if(btn) {
+                    if(l === lang) {
+                        btn.className = 'lang-btn bg-green-500 text-white border-green-500 border w-8 h-8 rounded-full text-xs font-bold shadow-md hover:scale-110 transition';
+                    } else {
+                        btn.className = 'lang-btn bg-white text-gray-700 border border-gray-200 w-8 h-8 rounded-full text-xs font-bold shadow-md hover:scale-110 transition';
+                    }
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>
